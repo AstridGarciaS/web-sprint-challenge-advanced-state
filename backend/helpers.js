@@ -108,7 +108,7 @@ async function postAnswer(payload) {
   }
 }
 
-async function postQuiz(payload) {
+async function submitQuiz(payload) {
   try {
     const { question_text, true_answer_text, false_answer_text } = await quizSchema.validate(payload)
     const newQuestion = {
@@ -128,7 +128,7 @@ async function postQuiz(payload) {
 
 module.exports = {
   getNextQuiz,
-  postQuiz,
+  submitQuiz,
   postAnswer,
   resetIdx,
 }

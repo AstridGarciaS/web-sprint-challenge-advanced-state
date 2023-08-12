@@ -1,20 +1,41 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { moveClockwise, moveCounterClockwise } from '../state/action-creators'
 
-export default function Wheel(props) {
+const cogArray = [0,1,2,3,4,5];
+
+function Wheel(props) {
+const handleClockwise = () => {
+  if(props.activeWheel === 5) {props.moveClockwise(0)}
+  else(props.moveClockwise(props.activeWheel + 1))
+}
+const handleCounterClockwise = () => {
+  if(props.activeWheel === 0) {props.moveCounterClockwise(5)}
+  else(props.moveCounterClockwise(props.activeWheel - 1))
+}
+
   return (
     <div id="wrapper">
       <div id="wheel">
-        <div className="cog active" style={{ "--i": 0 }}>B</div>
-        <div className="cog" style={{ "--i": 1 }}></div>
-        <div className="cog" style={{ "--i": 2 }}></div>
-        <div className="cog" style={{ "--i": 3 }}></div>
-        <div className="cog" style={{ "--i": 4 }}></div>
-        <div className="cog" style={{ "--i": 5 }}></div>{/* --i is a custom CSS property, no need to touch that nor the style object */}
+        {
+          cogArray.map(idx => (
+          <div key={idx} className={`cog${idx === props.activeWheel ? ' active' : ''}`} style={{"--i" : idx}}>
+            {idx === props.activeWheel ? 'B' : null}
+          </div>
+          ))
+        }
       </div>
       <div id="keypad">
-        <button id="counterClockwiseBtn" >Counter clockwise</button>
-        <button id="clockwiseBtn">Clockwise</button>
+        <button id="counterClockwiseBtn" onClick={handleCounterClockwise}>Counter clockwise</button>
+        <button id="clockwiseBtn" onClick={handleClockwise}>Clockwise</button>
       </div>
     </div>
   )
 }
+const mapStateToProps = state => {
+  return {
+    activeWheel: state.wheel
+  }
+}
+
+export default connect(mapStateToProps, {moveClockwise, moveCounterClockwise})(Wheel);

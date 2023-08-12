@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path')
 
-const { getNextQuiz, postAnswer, postQuiz } = require('./helpers')
+const { getNextQuiz, postAnswer, submitQuiz } = require('./helpers')
 
 const server = express()
 server.use(express.json())
@@ -31,7 +31,7 @@ server.post('/api/quiz/answer', async (req, res, next) => {
 
 server.post('/api/quiz/new', async (req, res, next) => {
   try {
-    const [status, payload] = await postQuiz(req.body)
+    const [status, payload] = await submitQuiz(req.body)
     res.status(status).json(payload)
   } catch (err) {
     next(err)

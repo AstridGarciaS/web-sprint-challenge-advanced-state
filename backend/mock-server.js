@@ -3,7 +3,7 @@ const { rest } = require('msw')
 
 const {
   getNextQuiz,
-  postQuiz,
+  submitQuiz,
   postAnswer,
   resetIdx,
 } = require('./helpers')
@@ -25,7 +25,7 @@ async function answerHandler(req, res, ctx) {
 }
 
 async function newHandler(req, res, ctx) {
-  const [status, payload] = await postQuiz(req.body)
+  const [status, payload] = await submitQuiz(req.body)
   return res(
     ctx.status(status),
     ctx.json(payload),
